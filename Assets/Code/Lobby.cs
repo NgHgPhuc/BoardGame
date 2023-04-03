@@ -10,18 +10,20 @@ using Photon.Realtime;
 public class Lobby : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
+    public TextMeshProUGUI Status;
     public TMP_InputField CreateRoomName;
     public TMP_InputField JoinRoomName;
 
     public GameObject RoomItemUI;
     public GameObject RoomListUI;
+    
     private void Awake()
     {
-        
+        DestroyAllRoomListUI();
     }
     void Start()
     {
-        
+        Status.SetText("Hi, " + PhotonNetwork.NickName + "\nYOU ARE IN LOBBY");
     }
 
     // Update is called once per frame
@@ -53,10 +55,19 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
     void UpdateRoomList(List<RoomInfo> roomList)
     {
-        RoomListUI.transform.chil
-        foreach(RoomInfo roomInfo in roomList)
+        DestroyAllRoomListUI();
+        foreach (RoomInfo roomInfo in roomList)
         {
+            GameObject c = Instantiate(RoomItemUI, RoomListUI.transform);
+            c.GetComponent<RoomItem>().SetNameRoom(roomInfo.Name);
+        }
+    }
 
+    void DestroyAllRoomListUI()
+    {
+        foreach (Transform child in RoomListUI.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 

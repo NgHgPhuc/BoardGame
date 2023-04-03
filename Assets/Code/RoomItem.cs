@@ -7,6 +7,6 @@ public class RoomItem : MonoBehaviour
 
     public void SetNameRoom(string name)
     {
-        transform.Find("Room Name").GetComponent<TextMeshProUGUI>().SetText(name);
+        transform.Find("Room Name").GetComponent<TextMeshProUGUI>().SetText("RoomName: "+name);
     }
 }
