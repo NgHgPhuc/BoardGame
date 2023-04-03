@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2098148476945659322}
   - component: {fileID: 4605782552337190921}
   - component: {fileID: -753661141632734883}
+  - component: {fileID: 1911563232534895375}
   m_Layer: 5
   m_Name: Player Panel
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 322, y: -402.5}
+  m_AnchoredPosition: {x: 250, y: -325}
   m_SizeDelta: {x: 500, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2098148476945659322
@@ -100,6 +101,18 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1911563232534895375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482362298434486799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a990ad6e9e4c94b2c86d22385c924bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6720638947746372916
 GameObject:
   m_ObjectHideFlags: 0

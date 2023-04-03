@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
+
 public class Room : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
@@ -16,8 +18,7 @@ public class Room : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        //GameObject c = PhotonNetwork.Instantiate(PlayerPref.name, Vector3.zero,Quaternion.identity);
-        //c.transform.SetParent(PlayerSeat.transform);
+        UpdatePlayer();
     }
 
     // Update is called once per frame
@@ -31,9 +32,40 @@ public class Room : MonoBehaviourPunCallbacks
 
     }
 
+    public void StartButton()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.LoadLevel("Play Scene");
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
         SceneManager.LoadScene("Online Mode Scene");
+    }
+
+    void UpdatePlayer()
+    {
+        foreach (Transform child in PlayerSeat.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (KeyValuePair<int,Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            GameObject c = Instantiate(PlayerPref, PlayerSeat.transform);
+            c.GetComponent<PlayerPanel>().SetName(player.Value.NickName);
+        }
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        UpdatePlayer();
+    }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        UpdatePlayer();
     }
 }

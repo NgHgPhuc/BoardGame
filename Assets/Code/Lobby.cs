@@ -34,6 +34,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        if (CreateRoomName.text.Length < 3) return;
         PhotonNetwork.CreateRoom(CreateRoomName.text);
     }
     public override void OnCreatedRoom()
@@ -42,6 +43,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
     public void JoinRoom()
     {
+        if (JoinRoomName.text.Length < 3) return;
         PhotonNetwork.JoinRoom(JoinRoomName.text);
     }
     public override void OnJoinedRoom()
@@ -58,6 +60,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         DestroyAllRoomListUI();
         foreach (RoomInfo roomInfo in roomList)
         {
+            if (roomInfo.RemovedFromList) continue;
             GameObject c = Instantiate(RoomItemUI, RoomListUI.transform);
             c.GetComponent<RoomItem>().SetNameRoom(roomInfo.Name);
         }
