@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class RoomSetting : MonoBehaviour
+using TMPro;
+public class JoinRoomPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TMP_InputField NameRoom;
     void Start()
     {
         
@@ -14,5 +14,9 @@ public class RoomSetting : MonoBehaviour
     void Update()
     {
         
+    }
+    public void JoinRoom()
+    {
+        Lobby.Instance.JoinRoom(NameRoom.text);
     }
 }
