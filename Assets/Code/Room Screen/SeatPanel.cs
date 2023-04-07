@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Realtime;
+
+public class SeatPanel : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void UpdatePlayerInRoom(Photon.Realtime.Room room)
+    {
+        foreach (Transform child in transform)
+            child.GetComponent<SeatUI>().ClearSeat();
+
+        int Count = 0;
+        foreach (KeyValuePair<int, Player> player in room.Players)
+        {
+            transform.GetChild(Count).GetComponent<SeatUI>().PlayerInSeat(player.Value);
+
+            Count++;
+        }
+
+        int PlayerCount = room.PlayerCount;
+        if (PlayerCount >= 10 || PlayerCount == room.MaxPlayers) return;
+
+        transform.GetChild(PlayerCount).GetComponent<SeatUI>().InviteInSeat();
+    }
+}

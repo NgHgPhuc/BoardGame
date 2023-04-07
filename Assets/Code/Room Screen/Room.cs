@@ -10,15 +10,26 @@ public class Room : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     public TextMeshProUGUI Roomname;
-    public GameObject PlayerPref;
-    public GameObject PlayerSeat;
-    private void Awake()
-    {
-        Roomname.SetText(PhotonNetwork.CurrentRoom.Name);
-    }
+    public SeatPanel seatPanel;
+    public RoomInfoUI roomInfoUI;
+
+    public bool IsTest;
+    public static Room Instance { get; private set; }
+
     void Start()
     {
         UpdatePlayer();
+
+        roomInfoUI.SetRoomInfoText(PhotonNetwork.CurrentRoom);
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -29,37 +40,17 @@ public class Room : MonoBehaviourPunCallbacks
     public void LeaveRoomButton()
     {
         PhotonNetwork.LeaveRoom();
-
     }
 
     public void StartButton()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel("Play Scene");
-        }
-    }
-
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-        SceneManager.LoadScene("Online Mode Scene");
     }
 
     void UpdatePlayer()
     {
-        foreach (Transform child in PlayerSeat.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        foreach (KeyValuePair<int,Player> player in PhotonNetwork.CurrentRoom.Players)
-        {
-            GameObject c = Instantiate(PlayerPref, PlayerSeat.transform);
-            c.GetComponent<PlayerPanel>().SetName(player.Value.NickName);
-        }
+        seatPanel.UpdatePlayerInRoom(PhotonNetwork.CurrentRoom);
     }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdatePlayer();
@@ -68,4 +59,19 @@ public class Room : MonoBehaviourPunCallbacks
     {
         UpdatePlayer();
     }
+
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+        SceneManager.LoadScene("Online Mode Scene");
+    }
+    public override void OnJoinedLobby()
+    {
+        SceneManager.LoadScene("Online Mode Scene");
+    }
+
+
+    //TESTING MODE
+
 }

@@ -10,26 +10,28 @@ using System;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
-    public GameObject RoomItemUI;
-    public GameObject RoomListUI;
-    public TextMeshProUGUI PlayerName;
+    public InfomationPanel infomationPanel;
     public static Lobby Instance { get; private set; }
     public bool isTesting;
 
+    ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
     private void Awake()
     {
     }
     void Start()
     {
         //TESTING MODE
+        //if (isTesting && PhotonNetwork.NetworkClientState == ClientState.PeerCreated)
         if (isTesting)
         {
             PhotonNetwork.NickName = "Testing Mode";
             PhotonNetwork.GameVersion = "1.0.0";
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.NickName = "Testing Mode";
+
+            playerProperties["SkinName"] = "Apple";
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
         }
-        PlayerName.SetText(PhotonNetwork.NickName);
+        infomationPanel.SetPlayerNameUI(PhotonNetwork.NickName);
 
         //SINGLETON
         if (Instance != null && Instance != this)
@@ -48,6 +50,11 @@ public class Lobby : MonoBehaviourPunCallbacks
         
     }
 
+    //Player Properties
+    public void ChangeSkinName(string skinName)
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties["SkinName"] = skinName;
+    }
 
     // LOBBY CREATE ROOM
     public void CreateRoom(string NameRoom,int MaxPlayer,bool joinMode) // 0 false public - 1 true private
@@ -65,6 +72,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
     }
+
 
     // LOBBY JOIN ROOM
     public void JoinRoom(string NameRoom) //my func
@@ -100,10 +108,10 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     void DestroyAllRoomListUI()
     {
-        foreach (Transform child in RoomListUI.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        //foreach (Transform child in RoomListUI.transform)
+        //{
+        //    Destroy(child.gameObject);
+        //}
     }
 
 

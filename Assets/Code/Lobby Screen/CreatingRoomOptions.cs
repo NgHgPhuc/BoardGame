@@ -20,6 +20,10 @@ public class CreatingRoomOptions : MonoBehaviour
     {
         
     }
+    public void ActiveCreateRoomOption()
+    {
+        gameObject.SetActive(true);
+    }
     public void ClickBackground()
     {
         gameObject.SetActive(false);
@@ -34,5 +38,15 @@ public class CreatingRoomOptions : MonoBehaviour
         if (Convert.ToInt16(MaxPlayers.text) * value == -2 || Convert.ToInt16(MaxPlayers.text) * value == 10) return;
 
         MaxPlayers.SetText((Convert.ToInt16(MaxPlayers.text) + value).ToString());
+    }
+
+    // 
+    public void ClientSeenMode()
+    {
+
+    }
+    public void HostSettingMode()
+    {
+
     }
 }
