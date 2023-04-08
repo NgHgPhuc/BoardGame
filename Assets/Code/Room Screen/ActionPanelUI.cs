@@ -18,21 +18,24 @@ public class ActionPanelUI : MonoBehaviour
         
     }
 
-    public void ClientAction()
+    public void PlayerIsClient()
     {
         ReadyButton.SetActive(true);
     }
-    public void HostAction()//master
+    public void PlayerIsMaster()//master
     {
         StartButton.SetActive(true);
     }
     public void ClickReadyButton()
     {
-
-
+        Room.Instance.PlayerClickReadyButton();
     }
     public void ClickStartButton()
     {
 
+    }
+    public void ClickLeaveButton()
+    {
+        Room.Instance.LeaveRoomButton();
     }
 }

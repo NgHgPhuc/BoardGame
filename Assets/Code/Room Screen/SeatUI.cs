@@ -20,14 +20,21 @@ public class SeatUI : MonoBehaviour
         
     }
 
-    public void PlayerInSeat(Player player)
+    public void SetPlayerInSeat(Player player,bool IsMaster)
     {
         GameObject c = Instantiate(PlayerUI_Pref, transform);
         PlayerPanel playerPanel = c.GetComponent<PlayerPanel>();
         playerPanel.SetPlayerNameUI(player.NickName);
         playerPanel.SetPlayerIconUI((string)player.CustomProperties["SkinName"]);
+        if (IsMaster) playerPanel.PlayerIsHost();
 
     }
+    public PlayerPanel GetPlayerInSeat()
+    {
+        PlayerPanel playerPanel = transform.GetChild(0).GetComponent<PlayerPanel>();
+        return playerPanel;
+    }
+
     public void InviteInSeat()
     {
         Instantiate(InviteUI_Pref, transform);

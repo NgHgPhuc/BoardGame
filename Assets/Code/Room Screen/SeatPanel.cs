@@ -25,7 +25,7 @@ public class SeatPanel : MonoBehaviour
         int Count = 0;
         foreach (KeyValuePair<int, Player> player in room.Players)
         {
-            transform.GetChild(Count).GetComponent<SeatUI>().PlayerInSeat(player.Value);
+            transform.GetChild(Count).GetComponent<SeatUI>().SetPlayerInSeat(player.Value, player.Value.IsMasterClient);
 
             Count++;
         }
@@ -34,5 +34,17 @@ public class SeatPanel : MonoBehaviour
         if (PlayerCount >= 10 || PlayerCount == room.MaxPlayers) return;
 
         transform.GetChild(PlayerCount).GetComponent<SeatUI>().InviteInSeat();
+    }
+
+    public void UpdatePlayerReadyInRoom(Dictionary<int,Player> Players)
+    {
+        int Count = 0;
+        foreach (KeyValuePair<int, Player> player in Players)
+        {
+            bool isReady = (bool)player.Value.CustomProperties["isReady"];
+            Debug.Log(Count+"_"+isReady);
+            transform.GetChild(Count).GetComponent<SeatUI>().GetPlayerInSeat().PlayerClickReady(isReady);
+            Count++;
+        }
     }
 }

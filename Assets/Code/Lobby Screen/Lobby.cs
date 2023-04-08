@@ -29,6 +29,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
 
             playerProperties["SkinName"] = "Apple";
+            playerProperties["isReady"] = false; //Only use in Room
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
         }
         infomationPanel.SetPlayerNameUI(PhotonNetwork.NickName);

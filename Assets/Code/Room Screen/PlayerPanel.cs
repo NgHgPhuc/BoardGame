@@ -34,4 +34,8 @@ public class PlayerPanel : MonoBehaviour
         PlayerIcon.sprite = SkinIcon.Instance.SkinCloset[SkinName];
         //Debug.Log(SkinName);
     }
+    public void PlayerClickReady(bool isReady)
+    {
+        ReadyIcon.SetActive(isReady);
+    }
 }
