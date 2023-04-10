@@ -8093,7 +8093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.323, y: 0.132}
   m_AnchorMax: {x: 0.6785834, y: 0.40177488}
-  m_AnchoredPosition: {x: -1, y: 3.4979782}
+  m_AnchoredPosition: {x: -1, y: 3.4969406}
   m_SizeDelta: {x: 2.59198, y: 5.9823}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1509206957
@@ -8345,7 +8345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infomationPanel: {fileID: 818972728}
-  isTesting: 1
+  isTesting: 0
 --- !u!4 &1592598121
 Transform:
   m_ObjectHideFlags: 0

@@ -21,10 +21,12 @@ public class ActionPanelUI : MonoBehaviour
     public void PlayerIsClient()
     {
         ReadyButton.SetActive(true);
+        StartButton.SetActive(false);
     }
     public void PlayerIsMaster()//master
     {
         StartButton.SetActive(true);
+        ReadyButton.SetActive(false);
     }
     public void ClickReadyButton()
     {

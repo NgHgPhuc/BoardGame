@@ -27,11 +27,12 @@ public class Lobby : MonoBehaviourPunCallbacks
             PhotonNetwork.NickName = "Testing Mode";
             PhotonNetwork.GameVersion = "1.0.0";
             PhotonNetwork.ConnectUsingSettings();
-
-            playerProperties["SkinName"] = "Apple";
-            playerProperties["isReady"] = false; //Only use in Room
-            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
         }
+
+        playerProperties["SkinName"] = "Apple";
+        playerProperties["isReady"] = false; //Only use in Room
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+
         infomationPanel.SetPlayerNameUI(PhotonNetwork.NickName);
 
         //SINGLETON

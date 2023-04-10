@@ -41,8 +41,8 @@ public class SeatPanel : MonoBehaviour
         int Count = 0;
         foreach (KeyValuePair<int, Player> player in Players)
         {
+            Debug.Log(player.Value.CustomProperties);
             bool isReady = (bool)player.Value.CustomProperties["isReady"];
-            Debug.Log(Count+"_"+isReady);
             transform.GetChild(Count).GetComponent<SeatUI>().GetPlayerInSeat().PlayerClickReady(isReady);
             Count++;
         }

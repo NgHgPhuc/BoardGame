@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 public class Room : MonoBehaviourPunCallbacks
 {
@@ -16,6 +17,8 @@ public class Room : MonoBehaviourPunCallbacks
 
     public bool IsTest;
     public static Room Instance { get; private set; }
+
+    //ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
 
     void Start()
     {
@@ -38,6 +41,7 @@ public class Room : MonoBehaviourPunCallbacks
         UpdatePlayer(); //Show pre Join Player
         PlayerActionPanelShow(); //Show ready button or start button;
         roomInfoUI.SetRoomInfoText(PhotonNetwork.CurrentRoom);//set info room
+        PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = false;
     }
 
     public void LeaveRoomButton()
@@ -78,15 +82,30 @@ public class Room : MonoBehaviourPunCallbacks
     //Show button start if player in master or ready if player is client
     void PlayerActionPanelShow()
     {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) //if client become master => turn ready mode into false
+        {
             actionPanelUI.PlayerIsMaster();
+
+            //ready mode into false
+            PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = false;
+            var newHash = PhotonNetwork.LocalPlayer.CustomProperties;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(newHash);
+            Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["isReady"]);
+            photonView.RPC("SyncPlayerReady", RpcTarget.All);
+        }
+
         else actionPanelUI.PlayerIsClient();
     }
     public void PlayerClickReadyButton()
     {
+
         bool isReady = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
         PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = !isReady;
-        photonView.RPC("SyncPlayerReady",RpcTarget.All );
+        var newHash = PhotonNetwork.LocalPlayer.CustomProperties;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(newHash);
+        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["isReady"]);
+        photonView.RPC("SyncPlayerReady", RpcTarget.All);
+
     }
 
     [PunRPC]
@@ -94,10 +113,10 @@ public class Room : MonoBehaviourPunCallbacks
     {
         seatPanel.UpdatePlayerReadyInRoom(PhotonNetwork.CurrentRoom.Players);
     }
+    //public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    //{
+    //    Debug.Log("Pro Update");
+    //    photonView.RPC("SyncPlayerReady", RpcTarget.All);
+    //}
 
-
-    void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
-    {
-
-    }
 }

@@ -23,7 +23,7 @@ public class PlayerPanel : MonoBehaviour
 
     public void PlayerIsHost()
     {
-        HostIcon.SetActive(true);  
+        HostIcon.SetActive(true);
     }
     public void SetPlayerNameUI(string Name)
     {
