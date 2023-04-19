@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Online Mode Scene.unity
     guid: e678c199c87284835a5ba9f94bd3384c
   - enabled: 1
+    path: Assets/Scenes/Offline Mode Scene.unity
+    guid: 904d4d990390544ca9320de6265f0b84
+  - enabled: 1
     path: Assets/Scenes/Room Scene.unity
     guid: f3863c36377724350bc7acd6678838bb
   - enabled: 1

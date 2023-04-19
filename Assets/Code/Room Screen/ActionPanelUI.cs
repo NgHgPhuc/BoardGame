@@ -34,7 +34,7 @@ public class ActionPanelUI : MonoBehaviour
     }
     public void ClickStartButton()
     {
-
+        Room.Instance.HostClickStartButton();
     }
     public void ClickLeaveButton()
     {

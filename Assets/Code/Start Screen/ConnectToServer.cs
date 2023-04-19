@@ -35,6 +35,10 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         LoginPanel.SetActive(true);
     }
+    public void OfflineModeButton()
+    {
+        SceneManager.LoadScene("Offline Mode Scene");
+    }
     public void LoginButton()
     {
         if (FillName.text.Length < 3) return;

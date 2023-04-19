@@ -6,6 +6,7 @@ using Photon.Realtime;
 public class SeatPanel : MonoBehaviour
 {
     // Start is called before the first frame update
+    int ReadyCount = 0;
     void Start()
     {
         
@@ -39,12 +40,21 @@ public class SeatPanel : MonoBehaviour
     public void UpdatePlayerReadyInRoom(Dictionary<int,Player> Players)
     {
         int Count = 0;
+        ReadyCount = 0;
         foreach (KeyValuePair<int, Player> player in Players)
         {
-            Debug.Log(player.Value.CustomProperties);
             bool isReady = (bool)player.Value.CustomProperties["isReady"];
+
+            ReadyCount = isReady ? ++ReadyCount : ReadyCount;
+
             transform.GetChild(Count).GetComponent<SeatUI>().GetPlayerInSeat().PlayerClickReady(isReady);
             Count++;
         }
+
+    }
+
+    public int ReadyCountInSeatPanel()
+    {
+        return ReadyCount;
     }
 }

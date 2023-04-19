@@ -18,6 +18,8 @@ public class Room : MonoBehaviourPunCallbacks
     public bool IsTest;
     public static Room Instance { get; private set; }
 
+    int ReadyPlayerCount;
+
     //ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
 
     void Start()
@@ -38,10 +40,11 @@ public class Room : MonoBehaviourPunCallbacks
     //Action when player just entered or joined the room
     void PlayerJustJoinRoom_Handle()
     {
+        PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = false;
+
         UpdatePlayer(); //Show pre Join Player
         PlayerActionPanelShow(); //Show ready button or start button;
         roomInfoUI.SetRoomInfoText(PhotonNetwork.CurrentRoom);//set info room
-        PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = false;
     }
 
     public void LeaveRoomButton()
@@ -49,14 +52,10 @@ public class Room : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public void StartButton()
-    {
-    }
-
     void UpdatePlayer()
     {
         seatPanel.UpdatePlayerInRoom(PhotonNetwork.CurrentRoom);
-        PlayerActionPanelShow(); //if host out and you became a host => turn ready button into start button
+        //PlayerActionPanelShow(); //if host out and you became a host => turn ready button into start button
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -66,6 +65,7 @@ public class Room : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdatePlayer();
+        PlayerActionPanelShow();
     }
 
 
@@ -90,12 +90,12 @@ public class Room : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.CustomProperties["isReady"] = false;
             var newHash = PhotonNetwork.LocalPlayer.CustomProperties;
             PhotonNetwork.LocalPlayer.SetCustomProperties(newHash);
-            Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["isReady"]);
             photonView.RPC("SyncPlayerReady", RpcTarget.All);
         }
 
         else actionPanelUI.PlayerIsClient();
     }
+
     public void PlayerClickReadyButton()
     {
 
@@ -119,4 +119,16 @@ public class Room : MonoBehaviourPunCallbacks
     //    photonView.RPC("SyncPlayerReady", RpcTarget.All);
     //}
 
+    public void HostClickStartButton()
+    {
+        int currentPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        int readyPlayerCount = seatPanel.ReadyCountInSeatPanel();
+        Debug.Log(currentPlayerCount + "/" + readyPlayerCount);
+        if (currentPlayerCount == 1) return;
+
+        if (currentPlayerCount > seatPanel.ReadyCountInSeatPanel() + 1) return;
+
+        PhotonNetwork.LoadLevel("Play Scene");
+
+    }
 }
