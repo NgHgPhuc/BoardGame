@@ -15,6 +15,9 @@ public class Lobby : MonoBehaviourPunCallbacks
     public bool isTesting;
 
     ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+
+    public GameObject roomObject;
+    public Transform roomObjectContainer;
     private void Awake()
     {
     }
@@ -84,7 +87,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log(message);
+        PopUpManager.Instance.InstantiatePopUp(message);
     }
     public override void OnJoinedRoom()
     {
@@ -99,21 +102,22 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
     void UpdateRoomList(List<RoomInfo> roomList)
     {
-        //DestroyAllRoomListUI();
-        //foreach (RoomInfo roomInfo in roomList)
-        //{
-        //    if (roomInfo.RemovedFromList) continue;
-        //    GameObject c = Instantiate(RoomItemUI, RoomListUI.transform);
-        //    c.GetComponent<RoomItem>().SetNameRoom(roomInfo.Name);
-        //}
+        DestroyAllRoomListUI();
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList) continue;
+            GameObject c = Instantiate(roomObject, roomObjectContainer);
+            string ShowPlayer = roomInfo.PlayerCount + "/" + roomInfo.MaxPlayers;
+            c.GetComponent<RoomObject>().InstantiateRoomObject(ShowPlayer, roomInfo.Name);
+        }
     }
 
     void DestroyAllRoomListUI()
     {
-        //foreach (Transform child in RoomListUI.transform)
-        //{
-        //    Destroy(child.gameObject);
-        //}
+        foreach (Transform child in roomObjectContainer)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
 

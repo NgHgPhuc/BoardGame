@@ -1,14 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-public class RoomObject : MonoBehaviour
+
+public class ListRoomPanel : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Image HostIcon;
-    public TextMeshProUGUI PlayerCountInRoom;
-    public TextMeshProUGUI RoomName;
     void Start()
     {
         
@@ -18,5 +14,13 @@ public class RoomObject : MonoBehaviour
     void Update()
     {
         
+    }
+    public void ClickBackground()
+    {
+        gameObject.SetActive(false);
+    }
+    public void OpenListRoomPanel()
+    {
+        gameObject.SetActive(true);
     }
 }
