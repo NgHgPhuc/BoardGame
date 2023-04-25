@@ -40,6 +40,10 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - SyncPlayerReady
+  - CheckIsPlayerTurn
+  - GetPlayerTurn
+  - NextTurn
+  - SyncPlayerObject
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

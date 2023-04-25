@@ -25,7 +25,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         //TESTING MODE
         //if (isTesting && PhotonNetwork.NetworkClientState == ClientState.PeerCreated)
-        if (isTesting)
+        if (PhotonNetwork.NetworkClientState != ClientState.JoinedLobby)
         {
             PhotonNetwork.NickName = "Testing Mode";
             PhotonNetwork.GameVersion = "1.0.0";

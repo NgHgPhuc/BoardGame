@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class MyIntEvent : UnityEvent<int, int>
+{
+}
+
 
 public class GameHandler : MonoBehaviour
 {
@@ -9,6 +16,7 @@ public class GameHandler : MonoBehaviour
     List<int> GameCode = new List<int>();
     int InputCount;
     public GameObject winPanel;
+    public MyIntEvent HandlerOnlineMode;
     void Start()
     {
         //SINGLETON
@@ -62,6 +70,8 @@ public class GameHandler : MonoBehaviour
         int TruePositionCount = this.TruePositionCount(inputString);
 
         ShowGuessedPanel.Instance.Serial_GuessedObject(GuessedCode, TrueNumberCount, TruePositionCount);
+
+        HandlerOnlineMode.Invoke(TrueNumberCount, TruePositionCount);
 
     }
 
