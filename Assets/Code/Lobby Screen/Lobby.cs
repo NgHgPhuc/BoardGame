@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using System;
+using System.Linq;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -68,7 +69,17 @@ public class Lobby : MonoBehaviourPunCallbacks
         if (MaxPlayer < 2 || MaxPlayer > 10) return;
 
 
-        PhotonNetwork.CreateRoom(NameRoom, new RoomOptions { MaxPlayers = (byte)MaxPlayer ,IsVisible = !joinMode });
+        RoomOptions roomOptions = new RoomOptions { MaxPlayers = (byte)MaxPlayer, IsVisible = !joinMode };
+
+        ExitGames.Client.Photon.Hashtable custProps = new ExitGames.Client.Photon.Hashtable();
+        System.Random r = new System.Random();
+        List<int> GameCode = new List<int>();
+        GameCode.AddRange(Enumerable.Range(0, 10).OrderBy(x => r.Next()).Take(4));
+        custProps.Add("GameCode", string.Join("", GameCode));
+
+        roomOptions.CustomRoomProperties = custProps;
+
+        PhotonNetwork.CreateRoom(NameRoom, roomOptions);
     }
     public override void OnCreatedRoom()
     {

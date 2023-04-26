@@ -20,10 +20,27 @@ public class OnlineGameConnection : MonoBehaviour
     void SetListener()
     {
         GameHandler.Instance.HandlerOnlineMode.AddListener(this.HandlerOnlineMode);
+        GameHandler.Instance.WinOnlineMode.AddListener(this.WinOnlineMode);
+        SetGameCode();
     }
 
     public void HandlerOnlineMode(int TrueNumberCount, int TruePositionCount)
     {
         PlayerHandler.Instance.PlayerDoneTurn(TrueNumberCount, TruePositionCount);
+    }
+
+    public void WinOnlineMode()
+    {
+        PlayerHandler.Instance.FirstPlayerWin();
+    }
+
+    public void SetGameCode()
+    {
+        string OnlineCode = PlayerHandler.Instance.GetOnlineCode();
+        List<string> GameCode = new List<string>();
+        foreach (char c in OnlineCode)
+            GameCode.Add(c.ToString());
+
+        GameHandler.Instance.SetGameCode(GameCode);
     }
 }

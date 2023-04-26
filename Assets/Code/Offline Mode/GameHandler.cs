@@ -17,6 +17,7 @@ public class GameHandler : MonoBehaviour
     int InputCount;
     public GameObject winPanel;
     public MyIntEvent HandlerOnlineMode;
+    public UnityEvent WinOnlineMode;
     void Start()
     {
         //SINGLETON
@@ -30,16 +31,24 @@ public class GameHandler : MonoBehaviour
         }
         RandomGameCode();
     }
-
-    // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SetGameCode(List<string> OnlineCode)//Only for Online Mode!!!
+    {
+        GameCode.Clear();
+        foreach (string s in OnlineCode)
+        {
+            GameCode.Add(int.Parse(s));
+        }
     }
     public string GetGameCode()
     {
         return string.Join("", GameCode);
     }
+    //times guess
     public int GetInputCount()
     {
         return InputCount;
@@ -49,10 +58,6 @@ public class GameHandler : MonoBehaviour
         System.Random r = new System.Random();
         GameCode.Clear();
         GameCode.AddRange(Enumerable.Range(0, 10).OrderBy(x => r.Next()).Take(4));
-        foreach (int i in GameCode)
-        {
-            Debug.Log(i);
-        }
     }
 
     public void CheckValiadate(List<int> inputString)
@@ -60,6 +65,7 @@ public class GameHandler : MonoBehaviour
         if (inputString.SequenceEqual(GameCode))
         {
             winPanel.SetActive(true);
+            WinOnlineMode.Invoke();
             InputCount = 0;
         }
 
@@ -68,6 +74,11 @@ public class GameHandler : MonoBehaviour
         string GuessedCode = string.Join("", inputString);
         int TrueNumberCount = this.TrueNumberCount(inputString);
         int TruePositionCount = this.TruePositionCount(inputString);
+
+        foreach (int i in GameCode)
+        {
+            Debug.Log(i);
+        }
 
         ShowGuessedPanel.Instance.Serial_GuessedObject(GuessedCode, TrueNumberCount, TruePositionCount);
 

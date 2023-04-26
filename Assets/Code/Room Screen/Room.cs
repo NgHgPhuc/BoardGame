@@ -6,6 +6,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class Room : MonoBehaviourPunCallbacks
 {
@@ -123,10 +124,19 @@ public class Room : MonoBehaviourPunCallbacks
     {
         int currentPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
         int readyPlayerCount = seatPanel.ReadyCountInSeatPanel();
-        Debug.Log(currentPlayerCount + "/" + readyPlayerCount);
-        if (currentPlayerCount == 1) return;
 
-        if (currentPlayerCount > seatPanel.ReadyCountInSeatPanel() + 1) return;
+        if (currentPlayerCount == 1)
+        {
+            PopUpManager.Instance.InstantiatePopUp("Need at least 1 more player to play");
+            return;
+        }
+
+        if (currentPlayerCount > seatPanel.ReadyCountInSeatPanel() + 1)
+        {
+         
+            PopUpManager.Instance.InstantiatePopUp("someone in Room is not ready");
+            return;
+        }
 
         PhotonNetwork.LoadLevel("Play Scene");
 

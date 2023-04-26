@@ -75,4 +75,13 @@ public class PlayerHandler : MonoBehaviourPunCallbacks
     {
         GuessNumberPanel.Instance.IsMyTurn((PhotonNetwork.LocalPlayer.ActorNumber == PlayerOrder[CurrentTurn].ActorNumber));
     }
+
+    public void FirstPlayerWin()
+    {
+        PhotonNetwork.LoadLevel("Room Scene");
+    }
+    public string GetOnlineCode()
+    {
+        return (string)PhotonNetwork.CurrentRoom.CustomProperties["GameCode"];
+    }
 }
