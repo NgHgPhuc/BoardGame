@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using System;
 using System.Linq;
+using UnityEditor.VersionControl;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -65,17 +66,26 @@ public class Lobby : MonoBehaviourPunCallbacks
     // LOBBY CREATE ROOM
     public void CreateRoom(string NameRoom,int MaxPlayer,bool joinMode) // 0 false public - 1 true private
     {
-        if (NameRoom.Length < 3) return;
-        if (MaxPlayer < 2 || MaxPlayer > 10) return;
+        if (NameRoom.Length < 3)
+        {
+            PopUpManager.Instance.InstantiatePopUp("Room's name must longer than 3 characters");
+            return;
+        }
+
+        //Dont need - remove anytime 
+
+        //if (MaxPlayer < 2 || MaxPlayer > 10)
+        //{
+        //    PopUpManager.Instance.InstantiatePopUp("Max Player can only in range 2 - 10");
+        //    return;
+        //}
 
 
         RoomOptions roomOptions = new RoomOptions { MaxPlayers = (byte)MaxPlayer, IsVisible = !joinMode };
 
         ExitGames.Client.Photon.Hashtable custProps = new ExitGames.Client.Photon.Hashtable();
-        System.Random r = new System.Random();
-        List<int> GameCode = new List<int>();
-        GameCode.AddRange(Enumerable.Range(0, 10).OrderBy(x => r.Next()).Take(4));
-        custProps.Add("GameCode", string.Join("", GameCode));
+        custProps.Add("GameCode","");
+        print(custProps);
 
         roomOptions.CustomRoomProperties = custProps;
 
@@ -93,7 +103,11 @@ public class Lobby : MonoBehaviourPunCallbacks
     // LOBBY JOIN ROOM
     public void JoinRoom(string NameRoom) //my func
     {
-        if (NameRoom.Length < 3) return;
+        if (NameRoom.Length < 3)
+        {
+            PopUpManager.Instance.InstantiatePopUp("Room's name must longer than 3 characters");
+            return;
+        }
         PhotonNetwork.JoinRoom(NameRoom);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)

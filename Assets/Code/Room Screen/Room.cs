@@ -138,6 +138,13 @@ public class Room : MonoBehaviourPunCallbacks
             return;
         }
 
+        ExitGames.Client.Photon.Hashtable custProps = new ExitGames.Client.Photon.Hashtable();
+        System.Random r = new System.Random();
+        List<int> GameCode = new List<int>();
+        GameCode.AddRange(Enumerable.Range(0, 10).OrderBy(x => r.Next()).Take(4));
+        custProps.Add("GameCode", string.Join("", GameCode));
+        PhotonNetwork.CurrentRoom.SetCustomProperties(custProps);
+
         PhotonNetwork.LoadLevel("Play Scene");
 
     }
